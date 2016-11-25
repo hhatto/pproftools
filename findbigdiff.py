@@ -6,9 +6,6 @@ import argparse
 RE_START_LINE = re.compile("ROUTINE ========================")
 RE_TOTAL_DIFF_PERCENT_LINE = re.compile("(\-?[0-9]+\.[0-9]+?)% of Total")
 
-GOROUTINE_NUM_COLOR = 11
-COLOR_LEVELS = [196, 202, 208, 214, 248, 250, 252]
-
 
 def _main(lines, opts):
     is_first = True
