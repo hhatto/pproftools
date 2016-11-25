@@ -6,6 +6,8 @@ import argparse
 RE_START_LINE = re.compile("ROUTINE ========================")
 RE_TOTAL_DIFF_PERCENT_LINE = re.compile("(\-?[0-9]+\.[0-9]+?)% of Total")
 
+THRESHOLD = 10.0
+
 
 def _main(lines, opts):
     is_first = True
@@ -52,7 +54,8 @@ def main():
     parser = argparse.ArgumentParser(description="""tool's usage:
      $ go tool pprof -list=. -base BASE.PPROF.DUMP BIANRY PPROF.DUMP > tmp.list
      $ python findbigdiff.py tmp.list""")
-    parser.add_argument('-t', '--threshold', type=float, default=10.0, help='difference threshold. (default: 10.0[%%])')
+    parser.add_argument('-t', '--threshold', type=float, default=THRESHOLD,
+                        help='difference threshold. (default: {0:.1f}[%%])'.format(THRESHOLD))
     parser.add_argument('-r', '--reverse', action='store_true', help='sort reverse by difference percent')
     parser.add_argument('file', nargs='?', type=argparse.FileType('r+'),
                         help="pprof's difference list text")
