@@ -35,7 +35,6 @@ def _main(lines, opts):
         elif RE_TOTAL_DIFF_PERCENT_LINE.search(line):
             s = RE_TOTAL_DIFF_PERCENT_LINE.search(line)
             percent = float(s.group(1))
-            print(line, percent)
         one_stackinfo.append(line)
 
     # care for last info
