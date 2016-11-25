@@ -51,9 +51,12 @@ def _main(lines, opts):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="""tool's usage:
-     $ go tool pprof -list=. -base BASE.PPROF.DUMP BIANRY PPROF.DUMP > tmp.list
-     $ python findbigdiff.py tmp.list""")
+    parser = argparse.ArgumentParser(
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            description="""tool's usage:
+    $ curl http://host:port/debug/pprof/{profile,heap}"
+    $ go tool pprof -list=. -base BASE.PPROF.DUMP BIANRY PPROF.DUMP > tmp.list
+    $ python findbigdiff.py tmp.list""")
     parser.add_argument('-t', '--threshold', type=float, default=THRESHOLD,
                         help='difference threshold. (default: {0:.1f}[%%])'.format(THRESHOLD))
     parser.add_argument('-r', '--reverse', action='store_true', help='sort reverse by difference percent')
