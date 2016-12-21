@@ -11,7 +11,9 @@ COLOR_LEVELS = [196, 202, 208, 214, 248, 250, 252]
 
 
 def _main(lines, opts):
+    re_filter_stack = re.compile(opts.match) if opts.match else None
     is_first = True
+    match = False
     stacks = []
     one_stackinfo = []
     goroutine_num = 0
@@ -20,6 +22,11 @@ def _main(lines, opts):
     level = 0
     for line in lines:
         if RE_STACKINFO_LINE.match(line):
+            func = line.split()[2]
+            if re_filter_stack and re_filter_stack.search(func):
+                match = True
+            elif not re_filter_stack:
+                match = True
             if opts.color:
                 line = "\x1b[;38;5;%03dm%s\x1b[;39m" % (COLOR_LEVELS[level], line)
                 if len(COLOR_LEVELS)-1 > level:
@@ -29,11 +36,13 @@ def _main(lines, opts):
             if is_first:
                 is_first = False
             else:
-                stacks.append({
-                    "num": goroutine_num,
-                    "info": "".join([stack for stack in one_stackinfo])
-                })
+                if match:
+                    stacks.append({
+                        "num": goroutine_num,
+                        "info": "".join([stack for stack in one_stackinfo])
+                    })
                 one_stackinfo = []
+                match = False
                 level = 0
             goroutine_num = int(line.split()[0])
             if opts.color:
@@ -44,10 +53,11 @@ def _main(lines, opts):
             one_stackinfo.append(line)
 
     # care for last info
-    stacks.append({
-        "num": goroutine_num,
-        "info": "".join([stack for stack in one_stackinfo])
-    })
+    if match:
+        stacks.append({
+            "num": goroutine_num,
+            "info": "".join([stack for stack in one_stackinfo])
+        })
 
     # sort and output
     sorted_stacks = sorted(stacks, key=lambda i: i["num"], reverse=not opts.reverse)
@@ -59,6 +69,7 @@ def _main(lines, opts):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--color', action='store_true', help='color print')
+    parser.add_argument('-m', '--match', help='only print this regex in stack string')
     parser.add_argument('-r', '--reverse', action='store_true', help='sort reverse by num goroutine')
     parser.add_argument('file', nargs='?', type=argparse.FileType('r+'),
                         help="pprof's goroutine dump text")
