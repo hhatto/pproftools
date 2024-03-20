@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-import sys
-import re
 import argparse
+import re
+import sys
 
 RE_STARTLINE = re.compile("[0-9]? @ 0x")
 RE_STACKINFO_LINE = re.compile("#\t0x")
