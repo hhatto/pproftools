@@ -2798,14 +2798,14 @@ def build_webapp(port, jsonstr):
             self.srv = make_server(self.host, self.port, app)
             try:
                 self.srv.serve_forever()
-            except:
+            except Exception:
                 pass
 
         def shutdown(self):
             try:
                 if self.srv is not None:
                     self.srv.shutdown()
-            except:
+            except Exception:
                 pass
             self.srv = None
 
