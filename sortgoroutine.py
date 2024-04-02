@@ -1,10 +1,9 @@
-#!/usr/bin/env python
 import argparse
 import re
 import sys
 
-RE_STARTLINE = re.compile("[0-9]? @ 0x")
-RE_STACKINFO_LINE = re.compile("#\t0x")
+RE_STARTLINE = re.compile(r"[0-9]? @ 0x")
+RE_STACKINFO_LINE = re.compile(r"#\t0x")
 
 GOROUTINE_NUM_COLOR = 11
 COLOR_LEVELS = [196, 202, 208, 214, 248, 250, 252]

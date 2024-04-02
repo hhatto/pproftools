@@ -11,7 +11,7 @@ from networkx.readwrite import json_graph
 from bottle import response, Bottle, ServerAdapter
 
 
-RE_DIGIT = re.compile(" \(([0-9.]+)\w*\)")
+RE_DIGIT = re.compile(r" \(([0-9.]+)\w*\)")
 LINKS = None
 NODES = None
 PARENT_MARKS = set()

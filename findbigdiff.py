@@ -1,10 +1,9 @@
-#!/usr/bin/env python
 import sys
 import re
 import argparse
 
 RE_START_LINE = re.compile("ROUTINE ========================")
-RE_TOTAL_DIFF_PERCENT_LINE = re.compile("(\-?[0-9]+\.[0-9]+?)% of Total")
+RE_TOTAL_DIFF_PERCENT_LINE = re.compile(r"(\-?[0-9]+\.[0-9]+?)% of Total")
 
 THRESHOLD = 10.0
 
